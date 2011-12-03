@@ -1,27 +1,28 @@
 <html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link href="css/application.css" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
-
-<title>ZaraFix</title>
-</head>
-<body onload="initialize()">
-	<header>
-		<h1 class="logo">Zara<span class="grunge">fix</span></h1> <a href="javascript:void(null)">Tengo una queja</a>
-	</header>
-    <div class="container-fluid">    
-
-  <div id="map_canvas" style="width:100%; height:85%"></div>
-	<div style="display:none">
-		<form action="/" id="form" method="post">
-			<select name="category"></select><br/>
-			<textarea name="description"></textarea><br/>
-			<input type="file" name="photo"/><br/>
-			<input type="submit" name="submit" value="Enviar queja"/><br/>
-			<input type="hidden" name="lat" value="" id="lat"/><input type="hidden" name="lng" value="" id="lng"/>
-		</form>
-	</div>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link href="css/application.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
+		<title>ZaraFix</title>
+	</head>
+	<body onload="initialize()">
+		<header>
+			<a href="javascript:void(null)" class="queja pull-right btn primary large">Tengo una queja</a>
+			<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
+		</header>
+    	<div class="container-fluid">    
+    		<div class="hero-unit">
+  				<div id="map_canvas" style="width:100%; height:85%" ></div>
+  			</div>
+			<div style="display:none">
+				<form action="/" id="form" method="post">
+					<select name="category"></select><br/>
+					<textarea name="description"></textarea><br/>
+					<input type="file" name="photo"/><br/>
+					<input type="submit" name="submit" value="Enviar queja"/><br/>
+					<input type="hidden" name="lat" value="" id="lat"/><input type="hidden" name="lng" value="" id="lng"/>
+				</form>
+			</div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript">
@@ -81,6 +82,6 @@ function loadForm(infowindow, map, marker, latLng){
 	infowindow.open(map,marker);
 }
 </script>
-	</div><!-- End div container-fluid -->
-</body>
+		</div><!-- End div container-fluid -->
+	</body>
 </html>
