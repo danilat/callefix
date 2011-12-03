@@ -46,18 +46,12 @@
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	infowindow = new google.maps.InfoWindow();
 	createMarker(center, map, infowindow)
-	
+	var newMark = new google.maps.Marker();
 	google.maps.event.addListener(map, 'click', function(ev) {
 		var latLng = ev.latLng
-		var mark = new google.maps.Marker({
-		      position: latLng, 
-		      map: map
-		  });
-		google.maps.event.addListener(mark, 'click', function() {
-			loadForm(infowindow, map, mark, latLng);
-		});
-		loadForm(infowindow, map, mark, latLng);
-		
+		newMark.setMap(map);
+		newMark.setPosition(latLng)
+		loadForm(infowindow, map, newMark, latLng);
 	});
 
   }
@@ -91,6 +85,9 @@ function loadForm(infowindow, map, marker, latLng){
 		'<input type="submit" id="submit" value="Enviar queja"/><br/>'+
 		'<input type="hidden" name="lat" value="'+latLng.lat()+'" id="lat"/><input type="hidden" name="lng" value="'+latLng.lng()+'" id="lng"/>'+
 	'</form>';
+	google.maps.event.addListener(infowindow, 'closeclick', function() {
+		marker.setMap(null);
+	});
 	infowindow.setContent(form);
 	infowindow.open(map,marker);
 }
