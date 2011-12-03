@@ -40,8 +40,7 @@
 		var latLng = ev.latLng
 		var mark = new google.maps.Marker({
 		      position: latLng, 
-		      map: map,
-			icon: 'http://playas.universalplaces.com/images/icons/apartamento.png'
+		      map: map
 		  });
 		google.maps.event.addListener(mark, 'click', function() {
 			loadForm(infowindow, map, mark, latLng);
@@ -74,9 +73,14 @@ $.ajax({
 }
 
 function loadForm(infowindow, map, marker, latLng){
-	$('#lat').val(latLng.lat())
-	$('#lng').val(latLng.lng())
-	infowindow.setContent($('#form').html());
+	var form ='<form action="" id="form" method="post">'+
+		'<select name="category"></select><br/>'+
+		'<textarea name="description"></textarea><br/>'+
+		'<input type="file" name="photo"/><br/>'+
+		'<input type="submit" id="submit" value="Enviar queja"/><br/>'+
+		'<input type="hidden" name="lat" value="'+latLng.lat()+'" id="lat"/><input type="hidden" name="lng" value="'+latLng.lng()+'" id="lng"/>'+
+	'</form>';
+	infowindow.setContent(form);
 	infowindow.open(map,marker);
 }
 </script>
