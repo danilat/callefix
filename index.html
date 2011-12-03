@@ -34,7 +34,7 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	infowindow = new google.maps.InfoWindow();
+	infowindow = new google.maps.InfoWindow({maxWidth:960});
 	createMarker(center, map, infowindow)
 	var newMark = new google.maps.Marker();
 	google.maps.event.addListener(map, 'click', function(ev) {
@@ -61,6 +61,7 @@ $.ajax({
   url: "detail.html",
   context: document.body,
   success: function(data){
+	data = '<div style="height: 700px;width:500px;">'+data+'</div>';
 	infowindow.setContent(data);
 	infowindow.open(map,marker);
   }
@@ -68,10 +69,10 @@ $.ajax({
 }
 
 function loadForm(infowindow, map, marker, latLng){
-	var form ='<form action="" id="form" method="post">'+
-		'<select name="category"></select><br/>'+
-		'<textarea name="description"></textarea><br/>'+
-		'<input type="file" name="photo"/><br/>'+
+	var form ='<form action="" method="post" style="height: 150px;width:350px;">'+
+		'Categoría: <select name="category"></select><br/>'+
+		'Descripción: <textarea name="description"></textarea><br/>'+
+		'Añade una foto: <input type="file" name="photo"/><br/>'+
 		'<input type="submit" id="submit" value="Enviar queja"/><br/>'+
 		'<input type="hidden" name="lat" value="'+latLng.lat()+'" id="lat"/><input type="hidden" name="lng" value="'+latLng.lng()+'" id="lng"/>'+
 	'</form>';
