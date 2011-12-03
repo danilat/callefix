@@ -42,9 +42,6 @@
 		      position: latLng, 
 		      map: map
 		  });
-		google.maps.event.addListener(mark, 'click', function() {
-			loadForm(infowindow, map, mark, latLng);
-		});
 		loadForm(infowindow, map, mark, latLng);
 		
 	});
@@ -80,6 +77,9 @@ function loadForm(infowindow, map, marker, latLng){
 		'<input type="submit" id="submit" value="Enviar queja"/><br/>'+
 		'<input type="hidden" name="lat" value="'+latLng.lat()+'" id="lat"/><input type="hidden" name="lng" value="'+latLng.lng()+'" id="lng"/>'+
 	'</form>';
+	google.maps.event.addListener(infowindow, 'closeclick', function() {
+		marker.setMap(null);
+	});
 	infowindow.setContent(form);
 	infowindow.open(map,marker);
 }
