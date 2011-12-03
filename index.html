@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>ZaraFix</title>
+</head>
+<body onload="initialize()">
+	<header>
+		<h1>ZaraFix</h1> <a href="javascript:void(null)">Tengo una queja</a>
+	</header>
+  <div id="map_canvas" style="width:100%; height:85%"></div>
+<div style="display:none">
+<form action="/" id="form" method="post">
+	<select name="category"></select><br/>
+	<textarea name="description"></textarea><br/>
+	<input type="file" name="photo"/><br/>
+	<input type="submit" name="submit" value="Enviar queja"/><br/>
+	<input type="hidden" name="lat" value="" id="lat"/><input type="hidden" name="lng" value="" id="lng"/>
+</form>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+  function initialize() {
+    var center = new google.maps.LatLng(41.65,-0.883333);
+    var myOptions = {
+      zoom: 12,
+      center: center,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	infowindow = new google.maps.InfoWindow();
+	createMarker(center, map, infowindow)
+	
+	google.maps.event.addListener(map, 'click', function(ev) {
+		var latLng = ev.latLng
+		var mark = new google.maps.Marker({
+		      position: latLng, 
+		      map: map,
+			icon: 'http://playas.universalplaces.com/images/icons/apartamento.png'
+		  });
+		google.maps.event.addListener(mark, 'click', function() {
+			loadForm(infowindow, map, mark, latLng);
+		});
+		loadForm(infowindow, map, mark, latLng);
+		
+	});
+
+  }
+
+function createMarker(latLng, map, infowindow){
+	var marker = new google.maps.Marker({
+		position: latLng, 
+		map: map
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		loadData(infowindow, map, marker);
+	});
+}
+
+function loadData(infowindow, map, marker){
+$.ajax({
+  url: "detail.html",
+  context: document.body,
+  success: function(data){
+	infowindow.setContent(data);
+	infowindow.open(map,marker);
+  }
+});
+}
+
+function loadForm(infowindow, map, marker, latLng){
+	$('#lat').val(latLng.lat())
+	$('#lng').val(latLng.lng())
+	infowindow.setContent($('#form').html());
+	infowindow.open(map,marker);
+}
+</script>
+
+</body>
+</html>
