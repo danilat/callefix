@@ -16,17 +16,6 @@
     		<div class="hero-unit">
   				<div id="map_canvas" style="width:100%; height:85%" ></div>
   			</div>
-			<div style="display:none">
-				<form action="/" id="form" method="post">
-					<select name="category">
-						
-					</select><br/>
-					<textarea name="description"></textarea><br/>
-					<input type="file" name="photo"/><br/>
-					<input type="submit" name="submit" value="Enviar queja"/><br/>
-					<input type="hidden" name="lat" value="" id="lat"/><input type="hidden" name="lng" value="" id="lng"/>
-				</form>
-			</div>
 			<footer>
 				<div class="row">
           			<div class="span6">Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</div>
