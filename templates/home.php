@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<link href="css/application.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
@@ -17,7 +18,9 @@
   			</div>
 			<div style="display:none">
 				<form action="/" id="form" method="post">
-					<select name="category"></select><br/>
+					<select name="category">
+						
+					</select><br/>
 					<textarea name="description"></textarea><br/>
 					<input type="file" name="photo"/><br/>
 					<input type="submit" name="submit" value="Enviar queja"/><br/>
@@ -99,7 +102,11 @@ $.ajax({
 
 function loadForm(infowindow, map, marker, latLng){
 	var form ='<form action="" method="post" style="height: 150px;width:350px;">'+
-		'Categoría: <select name="category"></select><br/>'+
+		'Categoría: <select name="category">'+
+		<?php foreach ($categories as $category) {
+			echo '\'<option value="'.$category.'">'.$category.'</option>\'+';
+		}?>
+		'</select><br/>'+
 		'Descripción: <textarea name="description"></textarea><br/>'+
 		'Añade una foto: <input type="file" name="photo"/><br/>'+
 		'<input type="submit" id="submit" value="Enviar queja"/><br/>'+
