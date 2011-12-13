@@ -38,31 +38,24 @@ $app = new Slim();
 
 //GET route
 $app->get('/', 'home');
+$app->post('/', 'create');
+
 function home() {
     global $app;
     $categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas');
     $app->render('home.php', array('categories' => $categories));
 }
 
-//POST route
-/*$app->post('/post', function () {
-    echo 'This is a POST route';
-});
 
-//PUT route
-$app->put('/put', function () {
-    echo 'This is a PUT route';
-});
+function create(){
+	global $app;
+	$category = $_POST["category"];
+	$description = $_POST["description"];
+	$lat = $_POST["lat"];
+	$lng = $_POST["lng"];
+    $app->redirect('.', 301);
+}
 
-//DELETE route
-$app->delete('/delete', function () {
-    echo 'This is a DELETE route';
-});
-*/
-/**
- * Step 4: Run the Slim application
- *
- * This method should be called last. This is responsible for executing
- * the Slim application using the settings and routes defined above.
- */
+
+
 $app->run();
