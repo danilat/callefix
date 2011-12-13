@@ -45,7 +45,7 @@ function home() {
 }
 
 //POST route
-$app->post('/post', function () {
+/*$app->post('/post', function () {
     echo 'This is a POST route';
 });
 
@@ -58,7 +58,7 @@ $app->put('/put', function () {
 $app->delete('/delete', function () {
     echo 'This is a DELETE route';
 });
-
+*/
 /**
  * Step 4: Run the Slim application
  *
