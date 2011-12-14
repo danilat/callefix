@@ -38,7 +38,11 @@ function create(){
 	$description = $_POST["description"];
 	$lat = $_POST["lat"];
 	$lng = $_POST["lng"];
-	createIssue($category, $description, $lat, $lng);
+	$imageSrc = "";
+	if(isset($_FILES)){
+		$imageSrc = photoUpload($_FILES["photo"]);
+	}
+	createIssue($category, $description, $lat, $lng, $imageSrc);
     $app->redirect('.', 301);
 }
 function detail($id) { 
@@ -46,12 +50,12 @@ function detail($id) {
 	$app->render('detail.php', array('issue'=>$_SESSION['issues'][$id]));
 }
 
-function createIssue($category, $description, $lat, $lng){
+function createIssue($category, $description, $lat, $lng, $imageSrc){
 	if(!isset($_SESSION['issues'])){
 		$_SESSION['issues'] = array();
 	}
 	$issues = $_SESSION['issues'];
-	$issues[count($issues)] = array('category'=>$category, 'description'=>$description, 'lat'=>$lat, 'lng'=>$lng);
+	$issues[count($issues)] = array('category'=>$category, 'description'=>$description, 'lat'=>$lat, 'lng'=>$lng, 'photo'=> $imageSrc);
 	$_SESSION['issues'] = $issues;
 }
 function findIssues(){
@@ -76,6 +80,18 @@ function openDB(){
 
 function closeDB($db){
 	$db->close();
+}
+
+function photoUpload($file){
+	$directory = '/Applications/MAMP/htdocs/zaragozafix/photos/';
+	if($file['error'] == 0){
+		if(is_uploaded_file($file['tmp_name'])){
+			$filePath = time().$file['name'];
+			if (move_uploaded_file($file['tmp_name'], $directory.$filePath)) {
+			    return $filePath;
+			}
+		}
+	}
 }
 
 $app->run();

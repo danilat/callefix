@@ -84,7 +84,7 @@ $.ajax({
   url: "index.php/detail/"+id,
   context: document.body,
   success: function(data){
-	data = '<div style="height: 300px;width:500px;">'+data+'</div>';
+	data = '<div style="">'+data+'</div>';
 	infowindow.setContent(data);
 	infowindow.open(map,marker);
   }
@@ -92,7 +92,7 @@ $.ajax({
 }
 
 function loadForm(infowindow, map, marker, latLng){
-	var form ='<form action="" method="post" style="height: 150px;width:350px;">'+
+	var form ='<form action="" method="post" style="height: 150px;width:350px;" enctype="multipart/form-data">'+
 		'Categoría: <select name="category">'+
 		<?php foreach ($categories as $category) {
 			echo '\'<option value="'.$category.'">'.$category.'</option>\'+';
