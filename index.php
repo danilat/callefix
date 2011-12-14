@@ -1,26 +1,9 @@
 <?php
-
-/**
- * Step 1: Require the Slim PHP 5 Framework
- *
- * If using the default file layout, the `Slim/` directory
- * will already be on your include path. If you move the `Slim/`
- * directory elsewhere, ensure that it is added to your include path
- * or update this file path as needed.
- */
 require 'Slim/Slim.php';
 
-/**
- * Step 2: Instantiate the Slim application
- *
- * Here we instantiate the Slim application with its default settings.
- * However, we could also pass a key-value array of settings.
- * Refer to the online documentation for available settings.
- */
 $app = new Slim();
 
 /**
- * Step 3: Define the Slim application routes
  *
  * Here we define several Slim application routes that respond
  * to appropriate HTTP request methods. In this example, the second
@@ -37,15 +20,18 @@ $app = new Slim();
  */
 
 //GET route
+
 $app->get('/', 'home');
 $app->post('/', 'create');
+$app->get('/detail/:id', 'detail');
 
 function home() {
     global $app;
     $categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas');
-    $app->render('home.php', array('categories' => $categories));
+	$issues=findIssues();
+	
+    $app->render('home.php', array('categories' => $categories, 'issues'=> $issues));
 }
-
 
 function create(){
 	global $app;
@@ -53,9 +39,30 @@ function create(){
 	$description = $_POST["description"];
 	$lat = $_POST["lat"];
 	$lng = $_POST["lng"];
+	$query = "INSERT INTO";
+	$statement = $mysqli->prepare($query);
+	$issue = new Issue($adapter);
     $app->redirect('.', 301);
+}
+function detail($id) { 
+	global $app;
+	$app->render('detail.php', array());
 }
 
 
+function findIssues(){
+	//$mysqli = new mysqli("db393947578.db.1and1.com", "dbo393947578", "=xqoB:yo", "db393947578");
+	$mysqli = new mysqli("localhost", "root", "", "zarafix", "3306", "/tmp/mysql.sock");
+	if ($mysqli->connect_error) {
+		die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
+	}
+	$issues = null;
+	if ($stmt = $mysqli->prepare("SELECT * FROM issues")) {
+		$stmt->execute();
+		$stmt->bind_result($issues);
+	}
+	$mysqli->close();
+	return $issues;
+}
 
 $app->run();
