@@ -86,9 +86,14 @@ function photoUpload($file){
 	$directory = '/Applications/MAMP/htdocs/zaragozafix/photos/';
 	if($file['error'] == 0){
 		if(is_uploaded_file($file['tmp_name'])){
-			$filePath = time().$file['name'];
-			if (move_uploaded_file($file['tmp_name'], $directory.$filePath)) {
-			    return $filePath;
+			$contentType = $file['type'];
+			if($contentType == 'image/jpeg' || $contentType == 'image/png'){
+				$filePath = time().$file['name'];
+				if (move_uploaded_file($file['tmp_name'], $directory.$filePath)) {
+			    	return $filePath;
+				}
+			}else{
+				die("Formato de archivo NO soportado");
 			}
 		}
 	}
