@@ -51,6 +51,9 @@ function findIssues(){
 		$stmt->bind_result($issues);
 	}
 	closeDB($db);*/
+	if(!isset($_SESSION['issues'])){
+		$_SESSION['issues'] = array();
+	}
 	$issues = $_SESSION['issues'];
 	return $issues;
 }
