@@ -26,11 +26,10 @@ $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
 
 function home() {
-    global $app;
-    $categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas');
+	global $app;
+	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas');
 	$issues=findIssues();
-	
-    $app->render('home.php', array('categories' => $categories, 'issues'=> $issues));
+	$app->render('home.php', array('categories' => $categories, 'issues'=> $issues));
 }
 
 function create(){
@@ -39,30 +38,44 @@ function create(){
 	$description = $_POST["description"];
 	$lat = $_POST["lat"];
 	$lng = $_POST["lng"];
-	$query = "INSERT INTO";
-	$statement = $mysqli->prepare($query);
-	$issue = new Issue($adapter);
+	createIssue($category, $description, $lat, $lng);
     $app->redirect('.', 301);
 }
 function detail($id) { 
 	global $app;
-	$app->render('detail.php', array());
+	$app->render('detail.php', array('issue'=>$_SESSION['issues'][$id]));
 }
 
-
-function findIssues(){
-	//$mysqli = new mysqli("db393947578.db.1and1.com", "dbo393947578", "=xqoB:yo", "db393947578");
-	$mysqli = new mysqli("localhost", "root", "", "zarafix", "3306", "/tmp/mysql.sock");
-	if ($mysqli->connect_error) {
-		die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
+function createIssue($category, $description, $lat, $lng){
+	if(!isset($_SESSION['issues'])){
+		$_SESSION['issues'] = array();
 	}
+	$issues = $_SESSION['issues'];
+	$issues[count($issues)] = array('category'=>$category, 'description'=>$description, 'lat'=>$lat, 'lng'=>$lng);
+	$_SESSION['issues'] = $issues;
+}
+function findIssues(){
+	/*$db = openDB();
 	$issues = null;
-	if ($stmt = $mysqli->prepare("SELECT * FROM issues")) {
+	if ($stmt = $db->prepare("SELECT * FROM issues")) {
 		$stmt->execute();
 		$stmt->bind_result($issues);
 	}
-	$mysqli->close();
+	closeDB($db);*/
+	$issues = $_SESSION['issues'];
 	return $issues;
+}
+function openDB(){
+	//$mysqli = new mysqli("db393947578.db.1and1.com", "dbo393947578", "=xqoB:yo", "db393947578");
+	$db = new mysqli("localhost", "root", "", "zarafix", "3306", "/tmp/mysql.sock");
+	if ($db->connect_error) {
+		die('Connect Error (' . $db->connect_errno . ') '. $db->connect_error);
+	}
+	return $db;
+}
+
+function closeDB($db){
+	$db->close();
 }
 
 $app->run();

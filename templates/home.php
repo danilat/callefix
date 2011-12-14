@@ -56,7 +56,9 @@
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	infowindow = new google.maps.InfoWindow({maxWidth:960});
-	createMarker(center, map, infowindow)
+	<?php foreach ($issues as $index => $issue) {
+		echo "createMarker(new google.maps.LatLng(".$issue['lat'].",".$issue['lng']."), map, infowindow,".$index.");\n";
+	}?>
 	var newMark = new google.maps.Marker();
 	google.maps.event.addListener(map, 'click', function(ev) {
 		var latLng = ev.latLng
@@ -67,13 +69,13 @@
 
   }
 
-function createMarker(latLng, map, infowindow){
+function createMarker(latLng, map, infowindow, id){
 	var marker = new google.maps.Marker({
 		position: latLng, 
 		map: map
 	});
 	google.maps.event.addListener(marker, 'click', function() {
-		loadData(infowindow, map, marker);
+		loadData(infowindow, map, marker, id);
 	});
 }
 
@@ -82,7 +84,7 @@ $.ajax({
   url: "index.php/detail/"+id,
   context: document.body,
   success: function(data){
-	data = '<div style="height: 400px;width:500px;">'+data+'</div>';
+	data = '<div style="height: 300px;width:500px;">'+data+'</div>';
 	infowindow.setContent(data);
 	infowindow.open(map,marker);
   }
