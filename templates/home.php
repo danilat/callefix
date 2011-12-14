@@ -77,12 +77,12 @@ function createMarker(latLng, map, infowindow){
 	});
 }
 
-function loadData(infowindow, map, marker){
+function loadData(infowindow, map, marker, id){
 $.ajax({
-  url: "detail.html",
+  url: "index.php/detail/"+id,
   context: document.body,
   success: function(data){
-	data = '<div style="height: 700px;width:500px;">'+data+'</div>';
+	data = '<div style="height: 400px;width:500px;">'+data+'</div>';
 	infowindow.setContent(data);
 	infowindow.open(map,marker);
   }
