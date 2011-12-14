@@ -3,27 +3,12 @@ require 'Slim/Slim.php';
 
 $app = new Slim();
 
-/**
- *
- * Here we define several Slim application routes that respond
- * to appropriate HTTP request methods. In this example, the second
- * argument for `Slim::get`, `Slim::post`, `Slim::put`, and `Slim::delete`
- * is an anonymous function. If you are using PHP < 5.3, the
- * second argument should be any variable that returns `true` for
- * `is_callable()`. An example GET route for PHP < 5.3 is:
- *
- * $app = new Slim();
- * $app->get('/hello/:name', 'myFunction');
- * function myFunction($name) { echo "Hello, $name"; }
- *
- * The routes below work with PHP >= 5.3.
- */
-
 //GET route
 
 $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
+$app->get('/categories.xml', 'categories');
 
 function home() {
 	global $app;
