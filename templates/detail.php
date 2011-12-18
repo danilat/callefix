@@ -1,6 +1,6 @@
-<b>Categoría:</b> <?php echo $issue['category']?><br/>
-<b>Descripción:</b> <?php echo $issue['description']?><br/>
+<b>Categoría:</b> <?php echo htmlentities($issue['category'])?><br/>
+<b>Descripción:</b> <?php echo htmlentities($issue['description'])?><br/>
 <?php if(isset($issue['imageSrc'])){
-	echo '<img src="photos/'.$issue['imageSrc'].'" width="200">';
+	echo '<img src="photos/'.htmlentities($issue['imageSrc']).'" width="200">';
 }?>
 <br/>
