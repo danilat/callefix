@@ -56,8 +56,11 @@
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	infowindow = new google.maps.InfoWindow({maxWidth:960});
-	<?php foreach ($issues as $index => $issue) {
+	<?php 
+	if($issues){
+	foreach ($issues as $index => $issue) {
 		echo "createMarker(new google.maps.LatLng(".$issue['lat'].",".$issue['lng']."), map, infowindow,".$index.");\n";
+	}
 	}?>
 	var newMark = new google.maps.Marker();
 	google.maps.event.addListener(map, 'click', function(ev) {

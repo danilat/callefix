@@ -32,30 +32,46 @@ function create(){
 }
 function detail($id) { 
 	global $app;
-	$app->render('detail.php', array('issue'=>$_SESSION['issues'][$id]));
+	$issue = findOneIssue($id);
+	$app->render('detail.php', array('issue'=>$issue));
 }
 
 function createIssue($category, $description, $lat, $lng, $imageSrc){
-	if(!isset($_SESSION['issues'])){
-		$_SESSION['issues'] = array();
+	$db = openDB();
+	$stmt = $db->prepare("INSERT INTO issue(category, description, lat, lng, image_src) VALUES (?, ?, ?, ?, ?)");
+	if ($stmt) {
+		$stmt->bind_param("sssss", $category, $description, $lat, $lng, $imageSrc);
+		$stmt->execute();
+		$id = $db->insert_id;
 	}
-	$issues = $_SESSION['issues'];
-	$issues[count($issues)] = array('category'=>$category, 'description'=>$description, 'lat'=>$lat, 'lng'=>$lng, 'photo'=> $imageSrc);
-	$_SESSION['issues'] = $issues;
+	closeDB($db);
+	return $id;
 }
 function findIssues(){
-	/*$db = openDB();
-	$issues = null;
-	if ($stmt = $db->prepare("SELECT * FROM issues")) {
+	$db = openDB();
+	$issues = array();
+	if ($stmt = $db->prepare("SELECT id, lat, lng FROM issue")) {
 		$stmt->execute();
-		$stmt->bind_result($issues);
+		$stmt->bind_result($id, $lat, $lng);
+		while ($stmt->fetch()) {
+			$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng);
+			array_push($issues, $issue);
+		}
 	}
-	closeDB($db);*/
-	if(!isset($_SESSION['issues'])){
-		$_SESSION['issues'] = array();
-	}
-	$issues = $_SESSION['issues'];
+	closeDB($db);
 	return $issues;
+}
+function findOneIssue($id){
+	$db = openDB();
+	if ($stmt = $db->prepare("SELECT category, description, image_src FROM issue WHERE id = ?")) {
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->bind_result($category, $description, $imageSrc);
+		$stmt->fetch();
+		$issue = array('id' => $id, 'category' => $category, 'description' =>$description, 'imageSrc' =>$imageSrc);
+	}
+	closeDB($db);
+	return $issue;
 }
 function openDB(){
 	//$mysqli = new mysqli("db393947578.db.1and1.com", "dbo393947578", "=xqoB:yo", "db393947578");
