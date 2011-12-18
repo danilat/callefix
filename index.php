@@ -92,7 +92,7 @@ function photoUpload($file){
 		if(is_uploaded_file($file['tmp_name'])){
 			$contentType = $file['type'];
 			if($contentType == 'image/jpeg' || $contentType == 'image/png'){
-				$filePath = time().$file['name'];
+				$filePath = time(). str_replace (" ", "", $file['name']);
 				if (move_uploaded_file($file['tmp_name'], $directory.$filePath)) {
 			    	return $filePath;
 				}

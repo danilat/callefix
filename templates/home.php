@@ -50,7 +50,7 @@
   function initialize() {
     var center = new google.maps.LatLng(41.65,-0.883333);
     var myOptions = {
-      zoom: 12,
+      zoom: 13,
       center: center,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -59,7 +59,7 @@
 	<?php 
 	if($issues){
 	foreach ($issues as $index => $issue) {
-		echo "createMarker(new google.maps.LatLng(".$issue['lat'].",".$issue['lng']."), map, infowindow,".$index.");\n";
+		echo "createMarker(new google.maps.LatLng(".$issue['lat'].",".$issue['lng']."), map, infowindow,".$issue['id'].");\n";
 	}
 	}?>
 	var newMark = new google.maps.Marker();
