@@ -61,6 +61,7 @@ function showIssue($id) {
 function createIssue($category, $description, $lat, $lng, $imageSrc){
 	$db = openDB();
 	$stmt = $db->prepare("INSERT INTO issue(category, description, lat, lng, image_src) VALUES (?, ?, ?, ?, ?)");
+	$id = null;
 	if ($stmt) {
 		$stmt->bind_param("sssss", $category, $description, $lat, $lng, $imageSrc);
 		$stmt->execute();
