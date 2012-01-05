@@ -96,7 +96,6 @@ function findOneIssue($id){
 	return $issue;
 }
 function openDB(){
-	//$mysqli = new mysqli("db393947578.db.1and1.com", "dbo393947578", "=xqoB:yo", "db393947578");
 	$db = new mysqli("localhost", "root", "", "zarafix", "3306", "/tmp/mysql.sock");
 	if ($db->connect_error) {
 		die('Connect Error (' . $db->connect_errno . ') '. $db->connect_error);
@@ -109,7 +108,7 @@ function closeDB($db){
 }
 
 function photoUpload($file){
-	$directory = '/Applications/MAMP/htdocs/zaragozafix/photos/';
+	$directory = 'photos/';
 	if($file['error'] == 0){
 		if(is_uploaded_file($file['tmp_name'])){
 			$contentType = $file['type'];
