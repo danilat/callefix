@@ -9,10 +9,13 @@ $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
 $app->get('/categories.xml', 'categories');
+$app->get('/api/issues.json', 'issues');
+$app->get('/api/categories.json', 'categories');
+$app->get('/api/issues/:id.json', 'showIssue');
 
 function home() {
 	global $app;
-	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas');
+	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
 	$issues=findIssues();
 	$app->render('home.php', array('categories' => $categories, 'issues'=> $issues));
 }
@@ -30,10 +33,29 @@ function create(){
 	createIssue($category, $description, $lat, $lng, $imageSrc);
     $app->redirect('.', 301);
 }
+
 function detail($id) { 
 	global $app;
 	$issue = findOneIssue($id);
 	$app->render('detail.php', array('issue'=>$issue));
+}
+
+function categories(){
+	global $app;
+	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
+	echo json_encode($categories);
+}
+
+function issues(){
+	global $app;
+	$issues=findIssues();
+	echo json_encode($issues);
+}
+
+function showIssue($id) { 
+	global $app;
+	$issue = findOneIssue($id);
+	echo json_encode($issue);
 }
 
 function createIssue($category, $description, $lat, $lng, $imageSrc){
