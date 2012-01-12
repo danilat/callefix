@@ -15,7 +15,7 @@ $app->get('/api/issues/:id.json', 'showIssue');
 
 function home() {
 	global $app;
-	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
+	$categories = getCategories();
 	$issues=findIssues();
 	$app->render('home.php', array('categories' => $categories, 'issues'=> $issues));
 }
@@ -30,7 +30,8 @@ function create(){
 	if(isset($_FILES)){
 		$imageSrc = photoUpload($_FILES["photo"]);
 	}
-	createIssue($category, $description, $lat, $lng, $imageSrc);
+	$id = createIssue($category, $description, $lat, $lng, $imageSrc);
+	sendNotification($id, $category, $description);
     $app->redirect('.', 301);
 }
 
@@ -42,7 +43,7 @@ function detail($id) {
 
 function categories(){
 	global $app;
-	$categories = array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
+	$categories = getCategories();
 	echo json_encode($categories);
 }
 
@@ -123,6 +124,31 @@ function photoUpload($file){
 			}
 		}
 	}
+}
+
+function sendNotification($id, $category, $description){
+	$url = "http://www.zaragoza.es/ciudad/ticketing/saveAnonymousRequest_Ticketing";
+	$postParams = array(
+		'descriptionSubject' => '[Zarafix] Nueva incidencia de '.$category, 
+		'description' => $description. '\n Ver en http://www.zarafix.com/index.php/detail/'.$id
+	);
+	$session = curl_init($url);
+	// definir tipo de petici&oacute;n a realizar: POST
+	curl_setopt ($session, CURLOPT_POST, true); 
+	// Le pasamos los par&aacute;metros definidos anteriormente
+	curl_setopt ($session, CURLOPT_POSTFIELDS, $postParams);
+	// s&oacute;lo queremos que nos devuelva la respuesta
+	curl_setopt($session, CURLOPT_HEADER, false); 
+	curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+	// ejecutamos la petici&oacute;n
+	$response = curl_exec($session); 
+	// cerramos conexi&oacute;n
+	curl_close($session);
+	return $response;
+}
+
+function getCategories(){
+	return array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
 }
 
 $app->run();
