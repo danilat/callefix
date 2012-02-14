@@ -71,9 +71,6 @@
 		newMark.setMap(map);
 		newMark.setPosition(latLng)
 		loadForm(infowindow, map, newMark, latLng);
-//		alert(map.getCenter());
-//		map.setCenter(latLng);
-//		alert(map.getCenter());
 	});
 
   }
@@ -103,8 +100,8 @@ $.ajax({
 function loadForm(infowindow, map, marker, latLng){
 	var form ='<form action="" method="post" style="height: 120px;width:350px;" enctype="multipart/form-data">'+
 		'Categoría: <select name="category">'+
-		<?php foreach ($categories as $category) {
-			echo '\'<option value="'.$category.'">'.$category.'</option>\'+';
+		<?php foreach ($categories as $key => $category) {
+			echo '\'<option value="'.$key.'">'.$category.'</option>\'+';
 		}?>
 		'</select><br/>'+
 		'Descripción: <textarea name="description"></textarea><br/>'+

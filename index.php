@@ -8,7 +8,7 @@ $app = new Slim();
 $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
-$app->get('/categories.xml', 'categories');
+$app->get('/categories.json', 'categories');
 $app->get('/api/issues.json', 'issues');
 $app->get('/api/categories.json', 'categories');
 $app->get('/api/issues/:id.json', 'showIssue');
@@ -74,11 +74,11 @@ function createIssue($category, $description, $lat, $lng, $imageSrc){
 function findIssues(){
 	$db = openDB();
 	$issues = array();
-	if ($stmt = $db->prepare("SELECT id, lat, lng FROM issue")) {
+	if ($stmt = $db->prepare("SELECT id, category, description, lat, lng FROM issue")) {
 		$stmt->execute();
-		$stmt->bind_result($id, $lat, $lng);
+		$stmt->bind_result($id, $category, $description, $lat, $lng);
 		while ($stmt->fetch()) {
-			$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng);
+			$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description'=>$description);
 			array_push($issues, $issue);
 		}
 	}
@@ -148,7 +148,13 @@ function sendNotification($id, $category, $description){
 }
 
 function getCategories(){
-	return array('Residuos', 'Alcantarillado', 'Tráfico y pavimento', 'Zonas verdes y de juego', 'Mobiliario urbano e iluminación', 'Molestias de construcción', 'Pintadas', 'Otros');
+	return array(1 => 'Residuos', 2 => 'Alcantarillado', 3 => 'Tráfico y pavimento', 4 => 'Zonas verdes y de juego', 5 => 'Mobiliario urbano e iluminación', 6 => 'Molestias de construcción', 7 => 'Pintadas', 8 => 'Otros');
 }
+
+function getCategory($id){
+	$category = getCategories();
+	return $category[$id];
+}
+
 
 $app->run();
