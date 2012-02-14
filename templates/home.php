@@ -10,7 +10,7 @@
 		
 
     	<div class="container-fluid">
-  				<div id="map_canvas" style="width:100%; height:100%" ></div>
+  				<div id="map_canvas"></div>
 				<header class="overlay">
 					<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja o incidencia de la que informar</a>
 					<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
