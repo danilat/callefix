@@ -10,12 +10,13 @@
 		
 
     	<div class="container-fluid">
+			<header class="overlay">
+				<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja o incidencia de la que informar</a>
+				<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
+			</header>
   				<div id="map_canvas"></div>
-				<header class="overlay">
-					<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja o incidencia de la que informar</a>
-					<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
-				</header>
-			<footer class="overlay">
+				
+			<footer>
 				<div class="row">
           			<div class="span6">Este es un proyecto iniciado en el <a href="http://www.opendataday.org/wiki/City_Events_2011#Zaragoza">Open Data Hackaton 2011, en Zaragoza</a>. <br/>
 	Por Carlos Cabrero, Pablo Jimeno y Dani Latorre.</div>
@@ -70,6 +71,9 @@
 		newMark.setMap(map);
 		newMark.setPosition(latLng)
 		loadForm(infowindow, map, newMark, latLng);
+//		alert(map.getCenter());
+//		map.setCenter(latLng);
+//		alert(map.getCenter());
 	});
 
   }
@@ -97,7 +101,7 @@ $.ajax({
 }
 
 function loadForm(infowindow, map, marker, latLng){
-	var form ='<form action="" method="post" style="height: 150px;width:350px;" enctype="multipart/form-data">'+
+	var form ='<form action="" method="post" style="height: 120px;width:350px;" enctype="multipart/form-data">'+
 		'Categoría: <select name="category">'+
 		<?php foreach ($categories as $category) {
 			echo '\'<option value="'.$category.'">'.$category.'</option>\'+';
