@@ -64,7 +64,7 @@ function createIssue($category, $description, $lat, $lng, $imageSrc){
 	$stmt = $db->prepare("INSERT INTO issue(category, description, lat, lng, image_src) VALUES (?, ?, ?, ?, ?)");
 	$id = null;
 	if ($stmt) {
-		$stmt->bind_param("sssss", $category, $description, $lat, $lng, $imageSrc);
+		$stmt->bind_param("issss", $category, $description, $lat, $lng, $imageSrc);
 		$stmt->execute();
 		$id = $db->insert_id;
 	}
