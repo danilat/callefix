@@ -38,7 +38,11 @@ function create(){
 function detail($id) { 
 	global $app;
 	$issue = findOneIssue($id);
-	$app->render('detail.php', array('issue'=>$issue));
+	if($app->request()->isAjax()){
+		$app->render('detail.php', array('issue'=>$issue));
+	}else{
+		$app->render('show.php', array('issue'=>$issue));
+	}
 }
 
 function categories(){
@@ -87,12 +91,12 @@ function findIssues(){
 }
 function findOneIssue($id){
 	$db = openDB();
-	if ($stmt = $db->prepare("SELECT category, description, image_src FROM issue WHERE id = ?")) {
+	if ($stmt = $db->prepare("SELECT id, lat, lng, category, description, image_src FROM issue WHERE id = ?")) {
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
-		$stmt->bind_result($category, $description, $imageSrc);
+		$stmt->bind_result($is, $lat, $lng, $category, $description, $imageSrc);
 		$stmt->fetch();
-		$issue = array('id' => $id, 'category' => $category, 'description' =>$description, 'imageSrc' =>$imageSrc);
+		$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description' =>$description, 'imageSrc' =>$imageSrc);
 	}
 	closeDB($db);
 	return $issue;
