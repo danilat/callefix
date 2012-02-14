@@ -7,21 +7,20 @@
 		<title>ZaraFix</title>
 	</head>
 	<body onload="initialize()">
-		<header>
-			<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja</a>
-			<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
-		</header>
+		
 
-    	<div class="container-fluid">    
-    		<div class="hero-unit">
-  				<div id="map_canvas" style="width:100%; height:85%" ></div>
-  			</div>
-			<footer>
+    	<div class="container-fluid">
+  				<div id="map_canvas" style="width:100%; height:100%" ></div>
+				<header class="overlay">
+					<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja o incidencia de la que informar</a>
+					<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
+				</header>
+			<footer class="overlay">
 				<div class="row">
-          			<div class="span6">Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</div>
-          			<div class="span6">Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</div>
-          			<div class="span6">Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</div>
-          			<div class="span2 offset14"><p>Hackaton 2011</p></div>
+          			<div class="span6">Este es un proyecto iniciado en el <a href="http://www.opendataday.org/wiki/City_Events_2011#Zaragoza">Open Data Hackaton 2011, en Zaragoza</a>. <br/>
+	Por Carlos Cabrero, Pablo Jimeno y Dani Latorre.</div>
+          			<div class="span6">Enlace a versión iphone.</div>
+          			<div class="span6">Enlace a versión android.</div>
           		</div>
 
           		
@@ -51,8 +50,10 @@
   function initialize() {
     var center = new google.maps.LatLng(41.65,-0.883333);
     var myOptions = {
-      zoom: 13,
+      zoom: 14,
       center: center,
+      disableDefaultUI: true,
+      zoomControl: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
