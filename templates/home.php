@@ -12,16 +12,32 @@
     	<div class="container-fluid">
 			<header class="overlay">
 				<a class="queja pull-right btn primary large" data-controls-modal="modal-from-dom" data-backdrop="static" data-keyboard="true">Tengo una queja o incidencia de la que informar</a>
-				<h1 class="logo">Zara<span class="grunge">fix</span></h1> 
+				<div class="logo">				
+					<img src="images/zarafix.png" />
+				</div>
 			</header>
-  				<div id="map_canvas"></div>
+  				<div id="map_canvas" class="shadow"></div>
 				
 			<footer>
 				<div class="row">
-          			<div class="span6">Este es un proyecto iniciado en el <a href="http://www.opendataday.org/wiki/City_Events_2011#Zaragoza">Open Data Hackaton 2011, en Zaragoza</a>. <br/>
-	Por Carlos Cabrero, Pablo Jimeno y Dani Latorre.</div>
-          			<div class="span6">Enlace a versión iphone.</div>
-          			<div class="span6">Enlace a versión android.</div>
+          			<div class="span5">
+		              <img class="small-bs-icon" src="images/icon-github.png">
+									<h3>Open Data Hackaton 2011</h3>
+									<p>Este es un proyecto iniciado en el <a href="http://www.opendataday.org/wiki/City_Events_2011#Zaragoza">Open Data Hackaton 2011, en Zaragoza</a>. <br/>
+	Por Carlos Cabrero, Pablo Jimeno y Dani Latorre.</p>
+									</div>
+          			<div class="span5">
+		              <img class="small-bs-icon" src="images/icon-github.png">
+									<h3>Enlace a versión iphone</h3>
+								</div>
+          			<div class="span5">
+		              <img class="small-bs-icon" src="images/icon-github.png">
+									<h3>Enlace a versión android</h3>
+								</div>
+          			<div class="span5 icon github">
+		              <img class="small-bs-icon" src="images/icon-github.png">
+									<h3>Feel free to fork the code</h3>
+								</div>								
           		</div>
 
           		
@@ -56,9 +72,12 @@
       disableDefaultUI: true,
       zoomControl: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
+
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	infowindow = new google.maps.InfoWindow({maxWidth:960});
+
+
 	<?php 
 	if($issues){
 	foreach ($issues as $index => $issue) {
@@ -68,6 +87,7 @@
 	var newMark = new google.maps.Marker();
 	google.maps.event.addListener(map, 'click', function(ev) {
 		var latLng = ev.latLng
+
 		newMark.setMap(map);
 		newMark.setPosition(latLng)
 		loadForm(infowindow, map, newMark, latLng);
