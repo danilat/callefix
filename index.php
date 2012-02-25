@@ -8,6 +8,7 @@ $app = new Slim();
 $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
+$app->post('/detail/:id', 'fix');
 $app->post('/api/issues.json', 'createJSON');
 $app->get('/api/issues.json', 'issues');
 $app->get('/api/categories.json', 'categories');
@@ -65,6 +66,12 @@ function showIssue($id) {
 	echo json_encode($issue);
 }
 
+function fix($id){
+	global $app;
+	fixIssue($id);
+	$app->redirect('../../', 301);
+}
+
 function createIssue($category, $description, $lat, $lng, $imageSrc){
 	$db = openDB();
 	$stmt = $db->prepare("INSERT INTO issue(category, description, lat, lng, image_src) VALUES (?, ?, ?, ?, ?)");
@@ -77,14 +84,25 @@ function createIssue($category, $description, $lat, $lng, $imageSrc){
 	closeDB($db);
 	return $id;
 }
+
+function fixIssue($id){
+	$db = openDB();
+	$stmt = $db->prepare("UPDATE issue SET fixed = true WHERE id = ?");
+	if ($stmt) {
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+	}
+	closeDB($db);
+}
+
 function findIssues(){
 	$db = openDB();
 	$issues = array();
-	if ($stmt = $db->prepare("SELECT id, category, description, lat, lng FROM issue")) {
+	if ($stmt = $db->prepare("SELECT id, category, description, lat, lng, fixed, createdAt FROM issue")) {
 		$stmt->execute();
-		$stmt->bind_result($id, $category, $description, $lat, $lng);
+		$stmt->bind_result($id, $category, $description, $lat, $lng, $fixed, $createdAt);
 		while ($stmt->fetch()) {
-			$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description'=>$description);
+			$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description'=>$description, 'fixed'=>$fixed, 'createdAt' => $createdAt);
 			array_push($issues, $issue);
 		}
 	}
@@ -93,12 +111,12 @@ function findIssues(){
 }
 function findOneIssue($id){
 	$db = openDB();
-	if ($stmt = $db->prepare("SELECT id, lat, lng, category, description, image_src FROM issue WHERE id = ?")) {
+	if ($stmt = $db->prepare("SELECT id, lat, lng, category, description, image_src, fixed, createdAt FROM issue WHERE id = ?")) {
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
-		$stmt->bind_result($is, $lat, $lng, $category, $description, $imageSrc);
+		$stmt->bind_result($is, $lat, $lng, $category, $description, $imageSrc, $fixed, $createdAt);
 		$stmt->fetch();
-		$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description' =>$description, 'imageSrc' =>$imageSrc);
+		$issue = array('id' => $id, 'lat' =>$lat, 'lng' =>$lng, 'category' => $category, 'description' =>$description, 'imageSrc' =>$imageSrc, 'fixed' => $fixed, 'createdAt' => $createdAt);
 	}
 	closeDB($db);
 	return $issue;
