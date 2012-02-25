@@ -8,7 +8,7 @@ $app = new Slim();
 $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
-$app->get('/categories.json', 'categories');
+$app->post('/api/issues.json', 'create');
 $app->get('/api/issues.json', 'issues');
 $app->get('/api/categories.json', 'categories');
 $app->get('/api/issues/:id.json', 'showIssue');
@@ -22,18 +22,16 @@ function home() {
 
 function create(){
 	global $app;
-	$category = $_POST["category"];
-	$description = $_POST["description"];
-	$lat = $_POST["lat"];
-	$lng = $_POST["lng"];
-	$imageSrc = "";
-	if(isset($_FILES)){
-		$imageSrc = photoUpload($_FILES["photo"]);
-	}
-	$id = createIssue($category, $description, $lat, $lng, $imageSrc);
-	sendNotification($id, $category, $description);
-    $app->redirect('.', 301);
+	$id = saveIssue($_POST, $_FILES);
+	$app->redirect('.', 301);
 }
+
+function createJSON(){
+	global $app;
+	$id = saveIssue($_POST, $_FILES);
+	echo json_encode($id);
+}
+
 
 function detail($id) { 
 	global $app;
@@ -111,6 +109,20 @@ function openDB(){
 
 function closeDB($db){
 	$db->close();
+}
+
+function saveIssue($post, $files){
+	$category = $post["category"];
+	$description = $post["description"];
+	$lat = $post["lat"];
+	$lng = $post["lng"];
+	$imageSrc = "";
+	if(isset($files)){
+		$imageSrc = photoUpload($files["photo"]);
+	}
+	$id = createIssue($category, $description, $lat, $lng, $imageSrc);
+	//sendNotification($id, $category, $description);
+	return $id;
 }
 
 function photoUpload($file){
