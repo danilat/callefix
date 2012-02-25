@@ -173,10 +173,21 @@ textarea {
 
 /* Zaragozafix specifics */ 
 
-h1.logo     { font-size: 45px; margin: 40px 20px; }
-span.grunge { color: red; font-family: 'Knewave', cursive; }
-a.queja     { margin: 3px 75px 14px 0; }
+div.logo     { margin: 15px 10px; }
+body {background-image:url('../images/back.png'); background-repeat:repeat-x; }
+header a.queja     { margin: 11px 20px 14px 0; }
+div#map_canvas { }
+.shadow {
+  -moz-box-shadow:    3px 3px 5px 6px #e2d2b2;
+  -webkit-box-shadow: 3px 3px 5px 6px #e2d2b2;
+  box-shadow:         0px 3px 15px 4px #e2d2b2;
+}
 
+.small-bs-icon {
+float: left;
+margin: 7px 10px 0 0;
+opacity: .8;
+}
 
 /* Variables.less
  * Variables to customize the look and feel of Bootstrap
@@ -196,6 +207,7 @@ body {
   font-weight: normal;
   line-height: 18px;
   color: #404040;
+	background-color: #fbf6ee;
 }
 .container {
   width: 940px;
@@ -2479,6 +2491,7 @@ width: 100%;
 #map_canvas{
 width:100%; height:100%
 }
+
 #map_canvas_detail{
     width:40%; height:40%
 }
