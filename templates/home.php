@@ -26,18 +26,18 @@
 									<p>Este es un proyecto iniciado en el <a href="http://www.opendataday.org/wiki/City_Events_2011#Zaragoza">Open Data Hackaton 2011, en Zaragoza</a>. <br/>
 	Por Carlos Cabrero, Pablo Jimeno y Dani Latorre.</p>
 									</div>
-          			<div class="span5">
+          			<!--div class="span5">
 		              <img class="small-bs-icon" src="images/icon-github.png">
 									<h3>Enlace a versión iphone</h3>
 								</div>
           			<div class="span5">
 		              <img class="small-bs-icon" src="images/icon-github.png">
 									<h3>Enlace a versión android</h3>
-								</div>
+								</div-->
           			<div class="span5 icon github">
 		              <img class="small-bs-icon" src="images/icon-github.png">
-									<h3>Feel free to fork the code</h3>
-								</div>								
+									<h3>Feel free to <a href="https://github.com/danilat/callefix">fork the code</a></h3>
+								</div>
           		</div>
 
           		
@@ -135,6 +135,12 @@ function loadForm(infowindow, map, marker, latLng){
 	infowindow.setContent(form);
 	infowindow.open(map,marker);
 }
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/wPUdVxE4oJ4pdppsU1dcg.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
 </script>
 		</div><!-- End div container-fluid -->
 	</body>
