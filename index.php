@@ -8,7 +8,7 @@ $app = new Slim();
 $app->get('/', 'home');
 $app->post('/', 'create');
 $app->get('/detail/:id', 'detail');
-$app->post('/api/issues.json', 'create');
+$app->post('/api/issues.json', 'createJSON');
 $app->get('/api/issues.json', 'issues');
 $app->get('/api/categories.json', 'categories');
 $app->get('/api/issues/:id.json', 'showIssue');
@@ -29,7 +29,11 @@ function create(){
 function createJSON(){
 	global $app;
 	$id = saveIssue($_POST, $_FILES);
-	echo json_encode($id);
+	if($id){
+		echo json_encode($id);
+	}else{
+		echo json_encode("ERROR");
+	}
 }
 
 
