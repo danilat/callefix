@@ -96,9 +96,11 @@
   }
 
 function createMarker(latLng, map, infowindow, id){
+	var image = 'images/fixMarker.png';
 	var marker = new google.maps.Marker({
 		position: latLng, 
-		map: map
+		map: map,
+		icon: image
 	});
 	google.maps.event.addListener(marker, 'click', function() {
 		loadData(infowindow, map, marker, id);

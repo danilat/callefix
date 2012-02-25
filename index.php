@@ -98,7 +98,7 @@ function fixIssue($id){
 function findIssues(){
 	$db = openDB();
 	$issues = array();
-	if ($stmt = $db->prepare("SELECT id, category, description, lat, lng, fixed, createdAt FROM issue")) {
+	if ($stmt = $db->prepare("SELECT id, category, description, lat, lng, fixed, createdAt FROM issue WHERE fixed = false")) {
 		$stmt->execute();
 		$stmt->bind_result($id, $category, $description, $lat, $lng, $fixed, $createdAt);
 		while ($stmt->fetch()) {
