@@ -62,6 +62,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
 <script type="text/javascript" src="js/zarafix-modal.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript">
   function initialize() {
@@ -71,11 +72,24 @@
       center: center,
       disableDefaultUI: true,
       zoomControl: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      //mapTypeId: google.maps.MapTypeId.ROADMAP
+	mapTypeId: "OSM",
+	                mapTypeControlOptions: {
+	                    mapTypeIds: ["OSM"]
+	                }
 
     };
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	infowindow = new google.maps.InfoWindow({maxWidth:960});
+	
+	map.mapTypes.set("OSM", new google.maps.ImageMapType({
+	                getTileUrl: function(coord, zoom) {
+	                    return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+	                },
+	                tileSize: new google.maps.Size(256, 256),
+	                name: "OpenStreetMap",
+	                maxZoom: 18
+	            }));
 
 
 	<?php 
