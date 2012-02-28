@@ -1,3 +1,4 @@
+<div style="width:400px">
 <b>Categoría:</b> <?php echo getCategory($issue['category'])?><br/>
 <b>Descripción:</b> <?php echo htmlentities($issue['description'])?><br/>
 <?php if(isset($issue['imageSrc'])){
@@ -13,3 +14,4 @@
 	
 }?>
 Fecha de aviso: <?php echo$issue['createdAt']?>
+</div>
